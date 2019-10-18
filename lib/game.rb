@@ -62,6 +62,10 @@ class Game
     # stop game if it is the 9 turn and there is no winner
     # note: "counter" count from 0
     if @counter >= 8 && !@board.victory?(@current_player)
+      puts "-" * 30
+      puts "MATCH NUL!!!"
+      puts "*" * 30
+      # set game status to finished
       @status = "finished"
     end
     
