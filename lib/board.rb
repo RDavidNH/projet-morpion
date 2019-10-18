@@ -3,13 +3,14 @@ require_relative 'show'
 
 class Board
   # array of board cases
-  attr_accessor :cases
+  attr_accessor :cases, :pos, :turn_error
   
   def initialize
     @cases = []
+    @turn_error = false
     
     # set position of cases
-    pos = [
+    @pos = [
       'A1', 'A2', 'A3',
       'B1', 'B2', 'B3',
       'C1', 'C2', 'C3'
@@ -17,13 +18,16 @@ class Board
     
     # create 9 cases
     9.times do |i|
-      @cases << BoardCase.new(' ', pos[i])
+      @cases << BoardCase.new(' ', @pos[i])
     end
   end
   
   def play_turn(player)
+  
+    @turn_error = false
+    
     # ask a player for a command on his turn
-    puts "C'est le tour de " + player.name + "!"
+    puts "C'est le tour de " + player.name + "! [" + player.symbole + "]"
     print "-> "
     command = gets.chomp
     
@@ -35,6 +39,13 @@ class Board
         puts '!!!!' * 12
         puts "Case déjà utilisée, choisissez une autre case!"
         puts '!!!!' * 12
+        @turn_error = true
+      elsif !@pos.include?(command)
+        puts "!" * 35
+        puts "COMMANDE INCORRECT!!!"
+        puts "!" * 35
+        @turn_error = true
+        break
       end
     end
     
